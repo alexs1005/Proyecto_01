@@ -1,0 +1,52 @@
+<template>
+    <lightning-card title="Gestión de Request">
+        <div>
+            <lightning-button
+                label="Crear Request"
+                variant="brand"
+                onclick={handleNewRequest}>
+            </lightning-button>
+        </div>
+    <template if:true={showForm}>   
+        <section class="slds-modal slds-fade-in-open">
+            <div class="slds-modal__container">
+
+                <header class="slds-modal__header">
+                    <h2 class="slds-text-heading_medium">Nuevo Request</h2>
+                </header>
+
+                <div class="slds-modal__content slds-p-around_medium">
+                    <lightning-record-form
+                        object-api-name="Request__c"
+                        layout-type="full"
+                        mode="edit"
+                        onsuccess={handleSuccess}
+                    ></lightning-record-form>
+                </div>
+               
+                <footer class="slds-modal__footer">
+                    <lightning-button
+                        label="Cerrar"
+                        onclick={closeModal}>
+                    </lightning-button>
+                </footer>
+
+            </div>
+        </section>
+        <div class="slds-backdrop slds-backdrop_open"></div>
+    </template>
+        <br>
+
+        <div style="height: 600px;">
+            <lightning-datatable
+                    key-field="Id"
+                    data={data}
+                    columns={columns}
+                    show-row-number-column
+                    row-number-offset={rowOffset}
+                    onsave={handleSave}
+                    draft-values={draftValues}>                   
+            </lightning-datatable>
+        </div>
+    </lightning-card>
+</template>

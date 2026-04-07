@@ -1,0 +1,56 @@
+<apex:component access="global" controller="BC_ListaDeCasosAsociadosCuenta_ctr">
+    <apex:attribute name="accountId" description="Id de la cuenta" assignTo="{!recordId}" type="String" />
+
+    <html>
+        <head>
+            <title>Lista de casos asociados</title>
+            <style>
+            body{
+                font-family: Georgia;
+                color: chocolate;
+            }
+            </style>
+        </head>
+
+        <body style="height:auto; width:auto;white-space: nowarp;">
+            <h1>Casos asociados a la cuenta</h1>
+            <table>
+                <apex:outputPanel rendered="{!getListCases.size>0}">
+                    <table>
+                        <tr>
+                            <th>Asunto</th>
+                            <th>Estado</th>
+                            <th>Prioridad</th>
+                            <th>Fecha de creación</th>
+                        </tr>
+                        <apex:repeat value="{!getListCases}" var="case">
+                            <tr>
+                                <td>{!case.CaseNumber}</td>
+                                <td>{!case.Subject}</td>
+                                <td>{!case.Status}</td>
+                                <td>{!case.Priority}</td>
+                                <td>{!case.Origin}</td>
+                                <td>
+                                    <apex:outputText value="{0,date,dd/MM/yyyy}"/>
+                                    <apex:param value="{!case.CreatedDate}"/>
+                                </td>
+                            </tr>
+                        </apex:repeat>
+                        <p>
+                            <b>
+                                Toral de casos: {!getTotalCases}
+                            </b>
+                        </p>
+
+                    </table>
+                </apex:outputPanel>
+                <apex:outputPanel rendered="{!getListCases.size==0}">
+                    <p>No hay casos asociados</p>
+                </apex:outputPanel> 
+            </table>
+        </body>
+
+
+    </html>
+    
+</apex:component>

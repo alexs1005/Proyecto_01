@@ -1,0 +1,26 @@
+<template>
+    <lightning-card icon-name="standard:contact" title="Componente Hijo">
+        <div class="slds-p-around_medium">
+
+            <template if:true={existecontact}>
+                <template for:each={contacts} for:item="contact">
+                    <div key={contact.Id} class="slds-box slds-m-bottom_small">
+                        <p><strong>Nombre:</strong> {contact.Name}</p>
+                        <p><strong>Titulo:</strong> {contact.Title}</p>
+                        <p><strong>Email:</strong> {contact.Email}</p>
+                        <p><strong>Nombre de la cuenta:</strong> {contact.Account.Name}</p>
+                        <p><strong>LeadSource:</strong> {contact.LeadSource}</p>
+                        <p><strong>Propietario:</strong> {contact.Owner.Name}</p>
+                        <p><strong>Fecha de creación:</strong> {contact.CreatedDate}</p>
+
+                    </div>
+                </template>
+            </template>
+
+            <template if:false={existecontact}>
+                <p>No se ha seleccionado ningún caso.</p>
+            </template>
+
+        </div>
+    </lightning-card>
+</template>

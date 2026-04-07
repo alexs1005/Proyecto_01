@@ -1,0 +1,10 @@
+<template>
+    <template if:true={acoounts} >
+        <lightning-datatable
+            key-field="id"
+            data={cases}
+            columns={columns}
+            hide-checkbox-column
+        ></lightning-datatable>
+    </template>
+</template>

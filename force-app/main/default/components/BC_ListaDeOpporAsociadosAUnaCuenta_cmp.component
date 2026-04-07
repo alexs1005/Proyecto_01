@@ -1,0 +1,53 @@
+<apex:component access="global" controller="BC_ListaDeOppAsociadosCuenta_ctr">
+    <apex:attribute name="accountId" description="Id de la cuenta" assignTo="{!recordId}" type="String" />
+
+    <html>
+        <head>
+            <title>Lista de oportunidades</title>
+            <style>
+            body{
+                font-family: Georgia;
+                color:cornflowerblue
+                ;
+            }
+            </style>
+        </head>
+
+        <body style="height:auto; width:auto;white-space: nowarp;">
+            <h1>Oportunidades asociadas a la cuenta</h1>
+            <table>
+                <apex:outputPanel rendered="{!getListOpp.size>0}">
+                    <table>
+                        <tr>
+                            <th>Nombre</th>
+                            <th>Monto</th>
+                            <th>Fecha de cierre</th>
+                        </tr>
+                        <apex:repeat value="{!getListOpp}" var="opor">
+                            <tr>
+                                <td>{!opor.Name}</td>
+                                <td>{!opor.Amount}</td>
+                                <td>
+                                    <apex:outputText value="{0,date,dd/MM/yyyy}">
+                                        <apex:param value="{!opor.CloseDate}"/>
+                                    </apex:outputText>
+                                </td>
+                            </tr>
+                        </apex:repeat>
+                        <p>
+                            <b>
+                                Toral de casos: {!getTotalOppor}
+                            </b>
+                        </p>
+
+                    </table>
+                </apex:outputPanel>
+                <apex:outputPanel rendered="{!getListOpp.size==0}">
+                    <p>No hay oportunidades asociadas</p>
+                </apex:outputPanel> 
+            </table>
+        </body>
+
+    </html>
+    
+</apex:component>

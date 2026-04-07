@@ -1,0 +1,13 @@
+<template>
+    <lightning-card title = 'Oportunidades'>
+        <template if:true={Oppor} >
+            <lightning-datatable
+                key-field="Id"
+                data={Oppor}
+                columns={columns}
+                hide-checkbox-column
+            ></lightning-datatable>
+        </template>
+    </lightning-card>
+
+</template>

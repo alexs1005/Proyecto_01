@@ -1,0 +1,56 @@
+/* ── Contenedor para estados vacío / error / loading ─────────────────────── */
+.state-container {
+    min-height: 140px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    padding: 2rem;
+}
+
+/* ── Fila del toolbar ────────────────────────────────────────────────────── */
+.toolbar-row {
+    align-items: flex-end;
+}
+
+.clear-btn-col {
+    display: flex;
+    align-items: flex-end;
+    padding-bottom: 0.125rem;
+}
+
+/* ── Selector de tamaño de página ────────────────────────────────────────── */
+.page-size-col {
+    min-width: 140px;
+}
+
+/* ── Títulos de sección dentro del modal de detalle ─────────────────────── */
+.section-title {
+    font-size: 0.75rem;
+    letter-spacing: 0.0625rem;
+    font-weight: 700;
+    margin-bottom: 0.25rem;
+    border-bottom: 1px solid #e0e5ee;
+    padding-bottom: 0.25rem;
+}
+
+/* ── Header rojo para modal de eliminación ───────────────────────────────── */
+.delete-header {
+    background-color: #c23934;
+}
+
+/* ── Subtítulo en modal de edición ───────────────────────────────────────── */
+.modal-subtitle {
+    color: rgba(255, 255, 255, 0.85);
+    font-size: 0.8125rem;
+    font-weight: 400;
+}
+
+/* ── Garantizar z-index correcto de los modales ──────────────────────────── */
+:host .slds-modal {
+    z-index: 9000;
+}
+
+:host .slds-backdrop {
+    z-index: 8999;
+}

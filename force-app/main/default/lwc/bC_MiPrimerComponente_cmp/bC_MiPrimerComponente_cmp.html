@@ -1,0 +1,60 @@
+<template>
+    <lightning-card icon-name="standard:account" variant="base" title="Mi Primer Componente">
+        <div>
+            <div class="slds-p-horizontal_small">
+                <p>Este es mi primer componente Lightning Web Component</p>
+            </div>
+
+            <br>
+
+            <div class="slds-p-horizontal_small">
+                <lightning-button
+                    variant="brand"
+                    label="Mostrar Mensaje / Ocultar Mensaje"
+                    onclick={handleClick}
+                    icon-name="utility:delete">
+                </lightning-button>
+
+                <br>
+
+                <template if:true={mostrarBoton}>
+                    <p>Hola desde el template, este es un mensaje a partir de un boton!</p>
+                </template>
+            </div>
+
+
+
+            <br>
+
+            <div class="example">
+                <lightning-button
+                    variant="destructive"
+                    aria-haspopup="dialog"
+                    onclick={handleConfirmModal}
+                    label="Abrir el Modal de Confirmacion">
+                </lightning-button>
+            </div>
+
+            <div style="height: 100%;">
+                <lightning-datatable
+                    key-field="id"
+                    data={data}
+                    columns={columns}
+                    hide-checkbox-column>
+                </lightning-datatable>
+            </div>
+
+            <template if:true={isModalOpen}>
+                <div>
+                    <lightning-spinner alternative-text="Cargando..." size="small">
+                    </lightning-spinner>
+                </div>
+            </template>
+        </div>
+        <div slot="footer">
+            <lightning-badge label="Tag1"></lightning-badge>
+            <lightning-badge label="Tag2"></lightning-badge>
+            <lightning-badge label="Tag3"></lightning-badge>
+        </div>
+    </lightning-card>
+</template>

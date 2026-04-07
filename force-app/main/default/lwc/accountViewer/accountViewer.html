@@ -1,0 +1,31 @@
+<template>
+    <lightning-card icon-name="standard:account" variant="base" title="Información">
+      <div class="slds-p-horizaontal_medium">
+            <template if:true={accountName}>
+                <p><strong>Nombre de la cuenta</strong>{accountName} </p>
+                <p><strong>Indstrial:</strong>{industry} </p>
+                <p><strong>Telefono</strong>{phone} </p>
+                <p><strong>Tipo</strong>{type} </p>
+
+                <lightning-button
+                  variant="brand"
+                  label={botonEtiqueta}
+                  onclick={handleClick}
+                ></lightning-button>
+
+                <template if:true={showDetalis}>
+                    <div class="slds-m-top_medium slds-box slds-theme_default" >
+                        <p><strong>Sitio Web:</strong>{website}</p>
+                        <p><strong>Sitio Web:</strong>{website}</p>
+                        <p><strong>Sitio Web:</strong>{website}</p>
+                    </div>
+                </template>
+
+                <template if:true={error}>
+                    <p>Ha ocurrido un error al cargar</p>
+                </template>
+
+            </template>
+      </div>
+    </lightning-card>
+</template>

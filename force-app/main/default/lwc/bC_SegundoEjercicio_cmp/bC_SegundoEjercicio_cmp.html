@@ -1,0 +1,30 @@
+<template>
+    <lightning-card title="Hello" icon-name="action:account">
+
+        <p class="slds-p-horizontal_small">Vista ......</p>
+        <p slot="footer">Card Footer</p>
+
+        <lightning-combobox name="industry" label="Seleccionar una industria" value={industry}
+            placeholder="Seleccionar una industria" options={industryOptions}
+            onchange={handleIndustryChange}>
+        </lightning-combobox>
+
+        <template if:true={isLoading}>
+            <div style="height: 300px;">
+                <lightning-spinner alternative-text="Loading" size="xx-small" variant="base"></lightning-spinner>
+            </div>
+
+        </template>
+
+        <template if:true={accounts}>
+            <div style="height: 300px;">
+                <lightning-datatable key-field="id" data={accounts} columns={columns}></lightning-datatable>
+            </div>
+        </template>
+
+    </lightning-card>
+
+
+
+
+</template>

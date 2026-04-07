@@ -1,0 +1,30 @@
+<template>
+    <lightning-card title="Componente Padre">
+        <div class="slds-p-around_medium">
+            <template if:true={errorMessage}>
+                <p class="slds-text-color_error">{errorMessage}</p>
+            </template>
+
+            <lightning-combobox
+              name="accountSelector"
+              label="Seleccionar una cuenta"
+              value={selectedAccountId}
+              placeholder="Elige una cuenta"
+              options={accountOptions}
+              onchange={handleAccountChange} 
+            ></lightning-combobox>
+            <div class="slds-m-top_large">
+                <c-bc-Componenet-Hijo
+                account={selectedAccount} 
+                onconfirmarseleccion={handleConfirmSelection}></c-bc-Componenet-Hijo>
+            </div>
+
+            <template if:true={message}>
+                <div class="slds-m-top_large slds-box slds-theme_success">
+                    {message}
+                </div>
+            </template> 
+
+        </div>
+    </lightning-card>
+</template>

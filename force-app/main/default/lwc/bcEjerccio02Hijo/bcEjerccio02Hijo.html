@@ -1,0 +1,22 @@
+<template>
+    <lightning-card icon-name="standard:case" title="Componente Hijo">
+        <div class="slds-p-around_medium">
+
+            <template if:true={existeCaso}>
+                <template for:each={cases1} for:item="caso">
+                    <div key={caso.Id} class="slds-box slds-m-bottom_small">
+                        <p><strong>Número:</strong> {caso.CaseNumber}</p>
+                        <p><strong>Prioridad:</strong> {caso.Priority}</p>
+                        <p><strong>Estado:</strong> {caso.Status}</p>
+                        <p><strong>Origen:</strong> {caso.Origin}</p>
+                    </div>
+                </template>
+            </template>
+
+            <template if:false={existeCaso}>
+                <p>No se ha seleccionado ningún caso.</p>
+            </template>
+
+        </div>
+    </lightning-card>
+</template>

@@ -1,0 +1,25 @@
+<template>
+    <lightning-card title="Componente Padre">
+        <div class="slds-p-around_medium">
+
+            <template if:true={errorMessage}>
+                <p class="slds-text-color_error">{errorMessage}</p>
+            </template>
+
+            <lightning-button
+                variant="brand"
+                label={labelBoton}
+                onclick={handleClick}>
+            </lightning-button>
+
+            <template if:true={showContacts}>
+                <div class="slds-m-top_large">
+                    <c-bc-ejercicios-03-hijo
+                        contacts={contacts}>
+                    </c-bc-ejercicios-03-hijo>
+                </div>
+            </template>
+
+        </div>
+    </lightning-card>
+</template>

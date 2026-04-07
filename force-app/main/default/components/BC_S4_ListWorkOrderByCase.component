@@ -1,0 +1,65 @@
+<apex:component access="global" controller="BC_S4_WorkOrderByCase_ctr">
+    <apex:attribute name="caseId" description="Id del caso" assignTo="{!recordId}" type="String" />
+
+    <html>
+        <head>
+            <title>Lista de Casos</title>
+            <style>
+            body{
+                font-family: Georgia;
+                color:cornflowerblue
+                ;
+            }
+            </style>
+        </head>
+
+        <body style="height:auto; width:auto;white-space: nowarp;">
+            <h1>Work Orders asociadas al caso</h1>
+            <table>
+                <apex:outputPanel rendered="{!getListWO.size>0}">
+                    <table>
+                        <tr>
+                            <th>Nr. Orden</th>
+                            <th>Propietario</th>
+                            <th>Duración</th>
+                            <th>Prioridad</th>
+                            <th>Moneda</th>
+                            <th>Fecha Inicio</th>
+                            <th>Fecha Fin</th>
+                        </tr>
+                        <apex:repeat value="{!getListWO}" var="wo">
+                            <tr>
+                                <td>{!wo.WorkOrderNumber}</td>
+                                <td>{!wo.Owner.Name}</td>
+                                <td>{!wo.Duration}</td>
+                                <td>{!wo.Priority}</td>
+                                <td>{!wo.CurrencyIsoCode}</td>
+                                <td>
+                                    <apex:outputText value="{0,date,dd/MM/yyyy}">
+                                        <apex:param value="{!wo.StartDate}"/>
+                                    </apex:outputText>
+                                </td>
+                                <td>
+                                    <apex:outputText value="{0,date,dd/MM/yyyy}">
+                                        <apex:param value="{!wo.EndDate}"/>
+                                    </apex:outputText>
+                                </td>
+                            </tr>
+                        </apex:repeat>
+                        <p>
+                            <b>
+                                Toral de casos: {!getTotalWO}
+                            </b>
+                        </p>
+
+                    </table>
+                </apex:outputPanel>
+                <apex:outputPanel rendered="{!getListWO.size==0}">
+                    <p>No hay WO asociados</p>
+                </apex:outputPanel> 
+            </table>
+        </body>
+
+    </html>
+    
+</apex:component>

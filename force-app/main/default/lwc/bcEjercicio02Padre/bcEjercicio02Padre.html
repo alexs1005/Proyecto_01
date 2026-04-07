@@ -1,0 +1,22 @@
+<template>
+    <lightning-card title="Componente Padre">
+        <div class="slds-p-around_medium">
+            <template if:true={errorMessage}>
+                <p class="slds-text-color_error">{errorMessage}</p>
+            </template>
+
+            <lightning-button 
+              variant="base"
+              label="Mostrar Casos" 
+              onclick={handleClick} 
+            ></lightning-button>
+
+            <div class="slds-m-top_large">
+                <c-bc-Ejerccio-02-Hijo
+                cases1={cases}
+                ></c-bc-Ejerccio-02-Hijo>
+            </div>
+
+        </div>
+    </lightning-card>
+</template>

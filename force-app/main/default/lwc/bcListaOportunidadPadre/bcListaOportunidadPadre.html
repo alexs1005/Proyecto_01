@@ -1,0 +1,38 @@
+<template>
+    <lightning-card icon-name="standard:account" title="Select de cuentas">
+      <div class="slds-p-around_medium">
+        <template if:true={errorMessage}>
+            <p class="slds-text-color_error">{errorMessage}</p>
+        </template>
+
+        <lightning-combobox
+          name="accountSelector"
+          label="Seleccione una cuenta"
+          value={selectedAccountId}
+          placeholder="Seleccione una cuentas"
+          options={accountOptions}
+          onchange={handleAccountChange} 
+        ></lightning-combobox>
+
+        <template if:true={selectedAccount} >
+            <div class="slds-m-top_medium" >
+                <p><strong>Cuenta seleccionada: </strong> {selectAccountName}</p>
+            </div>
+        </template>
+
+        <template if:true={selectedOpportunityMessage}>
+            <div class="slds-m-top_medium" >
+                <p>{selectedOpportunityMessage}</p>
+            </div>
+        </template>
+
+        <div class="slds-m-top_large">
+            <c-bc-lista-oportunidad-hijo 
+                account-id={selectedAccountId}
+                onopportunityselected={handleOpportunitySelected}
+            ></c-bc-lista-oportunidad-hijo>
+        </div>
+
+      </div>
+    </lightning-card>
+</template>

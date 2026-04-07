@@ -1,0 +1,434 @@
+<template>
+    <lightning-card title="Gestión de Accounts" icon-name="standard:account">
+
+        <!-- ── Acciones del header ─────────────────────────────────────── -->
+        <div slot="actions">
+            <lightning-button-icon
+                icon-name="utility:refresh"
+                alternative-text="Actualizar lista"
+                title="Actualizar"
+                onclick={handleRefresh}
+                class="slds-m-right_x-small">
+            </lightning-button-icon>
+            <template if:true={canCreate}>
+                <lightning-button
+                    label="Nuevo Account"
+                    variant="brand"
+                    icon-name="utility:add"
+                    onclick={handleNewAccount}>
+                </lightning-button>
+            </template>
+        </div>
+
+        <div class="slds-p-horizontal_medium slds-p-bottom_medium">
+
+            <!-- ── Toolbar: búsqueda y filtros ────────────────────────── -->
+            <div class="slds-grid slds-gutters slds-wrap slds-m-bottom_small toolbar-row">
+                <div class="slds-col slds-size_1-of-1 slds-medium-size_4-of-12">
+                    <lightning-input
+                        type="search"
+                        label="Buscar"
+                        placeholder="Nombre, teléfono, ciudad…"
+                        value={searchTerm}
+                        onchange={handleSearchChange}>
+                    </lightning-input>
+                </div>
+                <div class="slds-col slds-size_1-of-2 slds-medium-size_3-of-12">
+                    <lightning-combobox
+                        label="Tipo"
+                        value={selectedType}
+                        options={typeOptions}
+                        onchange={handleTypeChange}>
+                    </lightning-combobox>
+                </div>
+                <div class="slds-col slds-size_1-of-2 slds-medium-size_3-of-12">
+                    <lightning-combobox
+                        label="Rating"
+                        value={selectedRating}
+                        options={ratingOptions}
+                        onchange={handleRatingChange}>
+                    </lightning-combobox>
+                </div>
+                <div class="slds-col slds-size_1-of-1 slds-medium-size_2-of-12 clear-btn-col">
+                    <lightning-button
+                        label="Limpiar"
+                        icon-name="utility:clear"
+                        disabled={noActiveFilters}
+                        onclick={handleClearFilters}>
+                    </lightning-button>
+                </div>
+            </div>
+
+            <!-- ── Loading ────────────────────────────────────────────── -->
+            <template if:true={isLoading}>
+                <div class="state-container">
+                    <lightning-spinner
+                        alternative-text="Cargando accounts…"
+                        size="medium">
+                    </lightning-spinner>
+                </div>
+            </template>
+
+            <!-- ── Error ──────────────────────────────────────────────── -->
+            <template if:true={hasError}>
+                <div class="state-container">
+                    <div class="slds-text-align_center">
+                        <lightning-icon
+                            icon-name="utility:error"
+                            size="large"
+                            variant="error">
+                        </lightning-icon>
+                        <p class="slds-text-heading_small slds-m-top_small">{errorMessage}</p>
+                        <lightning-button
+                            label="Reintentar"
+                            variant="brand"
+                            onclick={handleRefresh}
+                            class="slds-m-top_small">
+                        </lightning-button>
+                    </div>
+                </div>
+            </template>
+
+            <!-- ── Empty ──────────────────────────────────────────────── -->
+            <template if:true={isEmpty}>
+                <div class="state-container">
+                    <div class="slds-text-align_center">
+                        <lightning-icon
+                            icon-name="standard:account"
+                            size="large"
+                            class="slds-m-bottom_small">
+                        </lightning-icon>
+                        <p class="slds-text-heading_small slds-text-color_weak">
+                            No se encontraron accounts.
+                        </p>
+                        <template if:true={hasActiveFilters}>
+                            <p class="slds-text-body_small slds-text-color_weak slds-m-top_x-small">
+                                Intenta ajustar la búsqueda o los filtros.
+                            </p>
+                            <lightning-button
+                                label="Limpiar Filtros"
+                                onclick={handleClearFilters}
+                                class="slds-m-top_small">
+                            </lightning-button>
+                        </template>
+                    </div>
+                </div>
+            </template>
+
+            <!-- ── DataTable ──────────────────────────────────────────── -->
+            <template if:true={showTable}>
+                <lightning-datatable
+                    key-field="Id"
+                    data={accounts}
+                    columns={columns}
+                    sorted-by={sortedBy}
+                    sorted-direction={sortedDirection}
+                    draft-values={draftValues}
+                    onsort={handleSort}
+                    onrowaction={handleRowAction}
+                    onsave={handleInlineSave}
+                    hide-checkbox-column>
+                </lightning-datatable>
+
+                <!-- Paginación -->
+                <div class="slds-grid slds-grid_align-spread slds-grid_vertical-align-center slds-m-top_small">
+                    <div class="slds-col">
+                        <p class="slds-text-body_small slds-text-color_weak">
+                            Mostrando {startRecord}–{endRecord} de {totalRecords} registros
+                            &nbsp;|&nbsp; Página {currentPage} de {totalPages}
+                        </p>
+                    </div>
+                    <div class="slds-col slds-shrink">
+                        <div class="slds-grid slds-gutters_x-small slds-grid_vertical-align-center">
+                            <div class="slds-col page-size-col">
+                                <lightning-combobox
+                                    label=""
+                                    value={pageSize}
+                                    options={pageSizeOptions}
+                                    onchange={handlePageSizeChange}>
+                                </lightning-combobox>
+                            </div>
+                            <div class="slds-col">
+                                <lightning-button-group>
+                                    <lightning-button
+                                        label="Anterior"
+                                        icon-name="utility:chevronleft"
+                                        disabled={isFirstPage}
+                                        onclick={handlePrevPage}>
+                                    </lightning-button>
+                                    <lightning-button
+                                        label="Siguiente"
+                                        icon-name="utility:chevronright"
+                                        icon-position="right"
+                                        disabled={isLastPage}
+                                        onclick={handleNextPage}>
+                                    </lightning-button>
+                                </lightning-button-group>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </template>
+        </div>
+    </lightning-card>
+
+
+    <!-- ═══════════════════════════════════════════════════════════════════════
+         MODAL — Crear / Editar Account
+    ════════════════════════════════════════════════════════════════════════ -->
+    <template if:true={showCreateEditModal}>
+        <section
+            role="dialog"
+            tabindex="-1"
+            aria-modal="true"
+            aria-labelledby="modal-create-heading"
+            class="slds-modal slds-fade-in-open slds-modal_large">
+            <div class="slds-modal__container">
+
+                <header class="slds-modal__header">
+                    <lightning-button-icon
+                        class="slds-modal__close"
+                        icon-name="utility:close"
+                        alternative-text="Cerrar"
+                        variant="bare-inverse"
+                        size="large"
+                        onclick={handleCloseCreateEdit}>
+                    </lightning-button-icon>
+                    <h2 id="modal-create-heading" class="slds-modal__title slds-hyphenate">
+                        {createEditTitle}
+                    </h2>
+                    <template if:true={isEditMode}>
+                        <p class="slds-m-top_xx-small modal-subtitle">
+                            Modifica los campos y guarda los cambios.
+                        </p>
+                    </template>
+                </header>
+
+                <div class="slds-modal__content slds-p-around_medium" id="modal-create-content">
+                    <lightning-record-edit-form
+                        object-api-name="Account"
+                        record-id={selectedAccountId}
+                        onsuccess={handleSaveSuccess}
+                        onerror={handleSaveError}
+                        onload={handleFormLoad}>
+
+                        <lightning-messages></lightning-messages>
+
+                        <div class="slds-grid slds-gutters slds-wrap">
+                            <!-- Columna izquierda -->
+                            <div class="slds-col slds-size_1-of-1 slds-medium-size_1-of-2">
+                                <lightning-input-field field-name="Name" required></lightning-input-field>
+                                <lightning-input-field field-name="Type"></lightning-input-field>
+                                <lightning-input-field field-name="Industry"></lightning-input-field>
+                                <lightning-input-field field-name="Rating"></lightning-input-field>
+                                <lightning-input-field field-name="Phone"></lightning-input-field>
+                                <lightning-input-field field-name="Fax"></lightning-input-field>
+                                <lightning-input-field field-name="Website"></lightning-input-field>
+                                <lightning-input-field field-name="AnnualRevenue"></lightning-input-field>
+                                <lightning-input-field field-name="NumberOfEmployees"></lightning-input-field>
+                            </div>
+                            <!-- Columna derecha -->
+                            <div class="slds-col slds-size_1-of-1 slds-medium-size_1-of-2">
+                                <lightning-input-field field-name="BillingStreet"></lightning-input-field>
+                                <lightning-input-field field-name="BillingCity"></lightning-input-field>
+                                <lightning-input-field field-name="BillingState"></lightning-input-field>
+                                <lightning-input-field field-name="BillingPostalCode"></lightning-input-field>
+                                <lightning-input-field field-name="BillingCountry"></lightning-input-field>
+                                <lightning-input-field field-name="ShippingStreet"></lightning-input-field>
+                                <lightning-input-field field-name="ShippingCity"></lightning-input-field>
+                                <lightning-input-field field-name="ShippingState"></lightning-input-field>
+                                <lightning-input-field field-name="ShippingPostalCode"></lightning-input-field>
+                                <lightning-input-field field-name="ShippingCountry"></lightning-input-field>
+                            </div>
+                            <!-- Ancho completo -->
+                            <div class="slds-col slds-size_1-of-1">
+                                <lightning-input-field field-name="Description"></lightning-input-field>
+                            </div>
+                        </div>
+
+                        <footer class="slds-modal__footer slds-p-top_medium">
+                            <lightning-button
+                                label="Cancelar"
+                                onclick={handleCloseCreateEdit}
+                                class="slds-m-right_small">
+                            </lightning-button>
+                            <lightning-button
+                                type="submit"
+                                label={saveButtonLabel}
+                                variant="brand"
+                                disabled={isSaving}>
+                            </lightning-button>
+                        </footer>
+                    </lightning-record-edit-form>
+                </div>
+
+            </div>
+        </section>
+        <div class="slds-backdrop slds-backdrop_open"></div>
+    </template>
+
+
+    <!-- ═══════════════════════════════════════════════════════════════════════
+         MODAL — Ver Detalle del Account
+    ════════════════════════════════════════════════════════════════════════ -->
+    <template if:true={showDetailModal}>
+        <section
+            role="dialog"
+            tabindex="-1"
+            aria-modal="true"
+            aria-labelledby="modal-detail-heading"
+            class="slds-modal slds-fade-in-open slds-modal_large">
+            <div class="slds-modal__container">
+
+                <header class="slds-modal__header">
+                    <lightning-button-icon
+                        class="slds-modal__close"
+                        icon-name="utility:close"
+                        alternative-text="Cerrar"
+                        variant="bare-inverse"
+                        size="large"
+                        onclick={handleCloseDetail}>
+                    </lightning-button-icon>
+                    <h2 id="modal-detail-heading" class="slds-modal__title slds-hyphenate">
+                        <lightning-icon icon-name="standard:account" size="small" class="slds-m-right_x-small"></lightning-icon>
+                        {selectedAccountName}
+                    </h2>
+                </header>
+
+                <div class="slds-modal__content slds-p-around_medium" id="modal-detail-content">
+                    <template if:true={isLoadingDetail}>
+                        <div class="state-container">
+                            <lightning-spinner alternative-text="Cargando detalle…" size="small"></lightning-spinner>
+                        </div>
+                    </template>
+                    <template if:false={isLoadingDetail}>
+                        <lightning-record-view-form
+                            object-api-name="Account"
+                            record-id={selectedAccountId}>
+                            <div class="slds-grid slds-gutters slds-wrap">
+                                <!-- Columna izquierda: info principal -->
+                                <div class="slds-col slds-size_1-of-1 slds-medium-size_1-of-2">
+                                    <p class="slds-text-title_caps slds-text-color_weak section-title">Información General</p>
+                                    <lightning-output-field field-name="Name"></lightning-output-field>
+                                    <lightning-output-field field-name="Type"></lightning-output-field>
+                                    <lightning-output-field field-name="Industry"></lightning-output-field>
+                                    <lightning-output-field field-name="Rating"></lightning-output-field>
+                                    <lightning-output-field field-name="Phone"></lightning-output-field>
+                                    <lightning-output-field field-name="Fax"></lightning-output-field>
+                                    <lightning-output-field field-name="Website"></lightning-output-field>
+                                    <lightning-output-field field-name="AnnualRevenue"></lightning-output-field>
+                                    <lightning-output-field field-name="NumberOfEmployees"></lightning-output-field>
+                                    <p class="slds-text-title_caps slds-text-color_weak section-title slds-m-top_small">Sistema</p>
+                                    <lightning-output-field field-name="OwnerId"></lightning-output-field>
+                                    <lightning-output-field field-name="CreatedDate"></lightning-output-field>
+                                    <lightning-output-field field-name="LastModifiedDate"></lightning-output-field>
+                                </div>
+                                <!-- Columna derecha: dirección -->
+                                <div class="slds-col slds-size_1-of-1 slds-medium-size_1-of-2">
+                                    <p class="slds-text-title_caps slds-text-color_weak section-title">Dirección de Facturación</p>
+                                    <lightning-output-field field-name="BillingStreet"></lightning-output-field>
+                                    <lightning-output-field field-name="BillingCity"></lightning-output-field>
+                                    <lightning-output-field field-name="BillingState"></lightning-output-field>
+                                    <lightning-output-field field-name="BillingPostalCode"></lightning-output-field>
+                                    <lightning-output-field field-name="BillingCountry"></lightning-output-field>
+                                    <p class="slds-text-title_caps slds-text-color_weak section-title slds-m-top_small">Dirección de Envío</p>
+                                    <lightning-output-field field-name="ShippingStreet"></lightning-output-field>
+                                    <lightning-output-field field-name="ShippingCity"></lightning-output-field>
+                                    <lightning-output-field field-name="ShippingState"></lightning-output-field>
+                                    <lightning-output-field field-name="ShippingPostalCode"></lightning-output-field>
+                                    <lightning-output-field field-name="ShippingCountry"></lightning-output-field>
+                                </div>
+                                <!-- Descripción -->
+                                <div class="slds-col slds-size_1-of-1 slds-m-top_small">
+                                    <p class="slds-text-title_caps slds-text-color_weak section-title">Descripción</p>
+                                    <lightning-output-field field-name="Description"></lightning-output-field>
+                                </div>
+                            </div>
+                        </lightning-record-view-form>
+                    </template>
+                </div>
+
+                <footer class="slds-modal__footer">
+                    <template if:true={canUpdate}>
+                        <lightning-button
+                            label="Editar"
+                            variant="brand"
+                            icon-name="utility:edit"
+                            onclick={handleEditFromDetail}
+                            class="slds-m-right_small">
+                        </lightning-button>
+                    </template>
+                    <lightning-button label="Cerrar" onclick={handleCloseDetail}></lightning-button>
+                </footer>
+            </div>
+        </section>
+        <div class="slds-backdrop slds-backdrop_open"></div>
+    </template>
+
+
+    <!-- ═══════════════════════════════════════════════════════════════════════
+         MODAL — Confirmar Eliminación
+    ════════════════════════════════════════════════════════════════════════ -->
+    <template if:true={showDeleteModal}>
+        <section
+            role="dialog"
+            tabindex="-1"
+            aria-modal="true"
+            aria-labelledby="modal-delete-heading"
+            class="slds-modal slds-fade-in-open">
+            <div class="slds-modal__container">
+
+                <header class="slds-modal__header delete-header">
+                    <lightning-button-icon
+                        class="slds-modal__close"
+                        icon-name="utility:close"
+                        alternative-text="Cerrar"
+                        variant="bare-inverse"
+                        size="large"
+                        onclick={handleCloseDelete}>
+                    </lightning-button-icon>
+                    <h2 id="modal-delete-heading" class="slds-modal__title slds-hyphenate">
+                        Confirmar Eliminación
+                    </h2>
+                </header>
+
+                <div class="slds-modal__content slds-p-around_large">
+                    <div class="slds-grid slds-gutters slds-grid_vertical-align-center">
+                        <div class="slds-col slds-shrink slds-m-right_small">
+                            <lightning-icon
+                                icon-name="utility:warning"
+                                variant="warning"
+                                size="medium">
+                            </lightning-icon>
+                        </div>
+                        <div class="slds-col">
+                            <p class="slds-text-heading_small">
+                                ¿Eliminar este Account?
+                            </p>
+                            <p class="slds-text-body_regular slds-m-top_x-small">
+                                <strong>{selectedAccountName}</strong> será eliminado permanentemente.
+                                Esta acción no se puede deshacer.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+
+                <footer class="slds-modal__footer">
+                    <lightning-button
+                        label="Cancelar"
+                        onclick={handleCloseDelete}
+                        class="slds-m-right_small">
+                    </lightning-button>
+                    <lightning-button
+                        label="Eliminar"
+                        variant="destructive"
+                        icon-name="utility:delete"
+                        disabled={isDeleting}
+                        onclick={handleConfirmDelete}>
+                    </lightning-button>
+                </footer>
+            </div>
+        </section>
+        <div class="slds-backdrop slds-backdrop_open"></div>
+    </template>
+</template>
