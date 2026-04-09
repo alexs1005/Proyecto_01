@@ -1,0 +1,268 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<RecordType xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Partner_Account</fullName>
+    <active>true</active>
+    <description>For consulting partners</description>
+    <label>Partner Account</label>
+    <picklistValues>
+        <picklist>AccountSource</picklist>
+        <values>
+            <fullName>Other</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Partner Referral</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Phone Inquiry</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Purchased List</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Web</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
+        <picklist>Active__c</picklist>
+        <values>
+            <fullName>No</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Yes</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
+        <picklist>CustomerPriority__c</picklist>
+        <values>
+            <fullName>High</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Low</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Medium</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
+        <picklist>Industry</picklist>
+        <values>
+            <fullName>Consulting</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Education</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
+        <picklist>Ownership</picklist>
+        <values>
+            <fullName>Other</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Private</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Public</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Subsidiary</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
+        <picklist>Rating</picklist>
+        <values>
+            <fullName>Cold</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Hot</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Not Known</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Warm</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
+        <picklist>Region__c</picklist>
+        <values>
+            <fullName>APAC</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Canada</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>EMEA</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>LATAM</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>US</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
+        <picklist>SLA__c</picklist>
+        <values>
+            <fullName>Bronze</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Gold</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Platinum</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Silver</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
+        <picklist>Type</picklist>
+        <values>
+            <fullName>Channel Partner %2F Reseller</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Installation Partner</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Other</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Technology Partner</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
+        <picklist>UpsellOpportunity__c</picklist>
+        <values>
+            <fullName>Maybe</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>No</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Yes</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
+        <picklist>Zone__c</picklist>
+        <values>
+            <fullName>Africa%C2%A0</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Caribbean%C2%A0</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Central America%C2%A0</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Central Canada%C2%A0</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>East Asia%C2%A0</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>East Coast%C2%A0</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Europe%C2%A0</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Mexico%C2%A0</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Middle East%C2%A0</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Midwest US%C2%A0</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Mountains and the West%C2%A0</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Northeast US%C2%A0</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Northern Canada%C2%A0</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Oceania%C2%A0</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>South America%C2%A0</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Southeast Asia%C2%A0</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Southeast US%C2%A0</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Southwest US%C2%A0</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>The Prairies%C2%A0</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>UK %2B Ireland%C2%A0</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>West US%C2%A0</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+</RecordType>

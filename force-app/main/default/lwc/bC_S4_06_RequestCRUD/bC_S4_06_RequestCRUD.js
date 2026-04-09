@@ -16,7 +16,10 @@ const columns = [
     { label: 'OwnerId', fieldName: 'OwnerId',editable: true },
 ];
 
-const columns2 = [SUBJECT_FIELD, STATUS_FIELD];
+const actions = [
+    { label: 'Delete', name: 'delete' },
+];
+
 
 export default class BC_S4_06_RequestCRUD extends LightningElement {
     data = [];
@@ -92,6 +95,25 @@ export default class BC_S4_06_RequestCRUD extends LightningElement {
         }
     }
 
+    handleRowAction(event) {
+        const actionName = event.detail.action.name;
+        const row = event.detail.row;
+        this.selectedAccountId   = row.Id;
+        this.selectedAccountName = row.Name;
+        switch (actionName) {
+            case 'delete':
+                this.deleteRow(row);
+                break;
+            default:
+        }
+    }
 
+    deleteRow(row) {
+        const { id } = row;
+        const index = this.findRowIndexById(id);
+        if (index !== -1) {
+            this.data = this.data.slice(0, index).concat(this.data.slice(index + 1));
+        }
+    }
 
 }
