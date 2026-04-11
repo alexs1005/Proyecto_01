@@ -1,0 +1,35 @@
+# Feature: Creación automática de planes de atención para pacientes
+
+# US: como administrador/ coordinador 
+# quiero que al registrar un paciente en Salesforce
+# se genere automaticamente un Care Plan de Draft
+
+Feature:
+
+Background: 
+    //Give Existe un usuario con perfil "clinian"
+    //And El recordType es 'Patient' está activo en el objeto Account (Patient)
+
+Escenario 01: Happy Path: la cuenta del paciente crea un plan de atención
+
+    //Give no existe Care Plans en el Sistema
+    //And Se prepara un Account con recordType = 'Patient'
+    //When El account es insertado en Salesforce
+    //Then Existe un care plan asociado al paciente
+    //And el plan de atención tiene estado "Draft"
+    //And el plan de atención es asignado al médico que lo registró.
+
+Escenario 02: Negative: una cuenta que no es de tipo 'patient' no crea un plan de atención
+    
+    //Give no existe Care Plans en el Sistema
+    //And Se prepara un Account con recordType que no es 'Patient'
+    //When El account es insertado en Salesforce
+    //Then No existe un care plan asociado al paciente
+
+Escenario 03: Bulk: 50 cuentas de pacientes crean planes de atención
+    
+    //Given se preparan 50 cuentas de pacientes con recordType = 'Patient'
+    //When Los accounts son insertados en Salesforce
+    //Then Existe 50 care plans asociados a los pacientes
+    //And cada plan de atención tiene estado "Draft"
+    //And cada plan de atención es asignado al médico que lo registró.

@@ -1,0 +1,29 @@
+#Feature: Aplicación de la seguridad de campos sensibles en prestamos
+
+
+Background: 
+    //Given Existe un usuario 'Loan Officers' y un usaurio 'Customer Service Reps' 
+    //And un Loan
+
+#Escenario 01: Happy Path - El user 'Loan Officers' crea un préstamo
+    //GIVEN Dado que el user 'Loan Officers' prepara un Loan
+    //WHEN El Lean es insertado
+    //THEN Todos los campos deben almacenarse correctamente.
+
+
+Escenario 02: Security FLS Read - El user 'Customer Service Reps' consulta los préstamos
+    //GIVEN Dado que el user 'Customer Service Reps' 
+    //WHEN Consulta los préstamos
+    //THEN Los campos confidenciales no deben ser visibles.
+
+Escenario 03: Security CRUD - Usuario 'Customer Service Reps' sin permisos elimina Loan
+
+    //GIVEN Dado que el user 'Customer Service Reps' sin permiso de 'Delete' en Lead
+    //WHEN El usuario elimina un préstamo
+    //THEN Se debe generar una excepción 'NoAccessException'
+
+Escenario 04: FLS Write - User 'Customer Service Reps' actualiza campo 'InterestRate__c'
+
+    //GIVEN Dado que el user 'Customer Service Reps' sin permiso de update a campos sensibles
+    //WHEN Actualiza la tasa de interés
+    //THEN La tasa de interés no debe cambiar
